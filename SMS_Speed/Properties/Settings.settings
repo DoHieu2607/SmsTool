@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SMS_Speed.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">E0BF300460D2DE65489DB31934A7B4</Value>
+    </Setting>
+    <Setting Name="SecretKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3219839723390BC6133415A002FA2D</Value>
+    </Setting>
+    <Setting Name="BrandName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Baotrixemay</Value>
+    </Setting>
+    <Setting Name="SmsType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="IsUnicode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SandBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TemplateDay" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban</Value>
+    </Setting>
+    <Setting Name="TemplateMonth" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
