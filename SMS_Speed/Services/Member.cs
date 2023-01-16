@@ -46,4 +46,9 @@ namespace SMS_Speed.Services
 
         }
     }
+    
+    public List<MemberDTO> GetMemberLastVisit(DateTime start)
+    {
+
+    }
 }

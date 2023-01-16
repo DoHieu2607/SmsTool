@@ -81,8 +81,16 @@ namespace SMS_Speed
             }
             catch (Exception) { }
         }
+
+        public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+        {
+            // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
+        }
+
         //EventUI
-   
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -113,55 +121,33 @@ namespace SMS_Speed
 
         }
 
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void tabPage1_Click(object sender, EventArgs e)
         {
 
         }
 
-     
-/*   private void cbxMonth_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Console.WriteLine(cbxMonth.Text);
-            Console.WriteLine("test");
-        }*/
-      
-
-
- 
 
     
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnClearLog_Click(object sender, EventArgs e)
         {
             rtbLog.Clear();
         }
+        
 
-        private void button2_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         {
-            tmrDate.Enabled = false;
-            tmrDate.Stop();
+            DateTime test = GetNextWeekday(DateTime.Now.AddDays(1), DayOfWeek.Monday);
+            WriteLog(test.ToString());
+        }
+
+        private void BtnStop_Click(object sender, EventArgs e)
+        {
+            //tmrDate.Enabled = false;
+            //tmrDate.Stop();
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            tmrDate.Interval = 1;
-            tmrDate.Enabled = true;
-            tmrDate.Start();
-
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
         }
@@ -184,9 +170,14 @@ namespace SMS_Speed
             WriteLog("Hello");
         }
 
-        private void btnCancel_Click_1(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

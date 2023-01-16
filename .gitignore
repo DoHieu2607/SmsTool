@@ -1,0 +1,7 @@
+# template ignore for C# Winform
+# bin folder
+SMS_Speed/bin/
+SMS_Speed/obj/
+# Visual Studio 2015 cache/options directory
+.vs/
+
