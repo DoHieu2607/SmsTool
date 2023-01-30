@@ -118,5 +118,29 @@ namespace SMS_Speed.Properties {
                 this["TemplateMonth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://rest.esms.vn/MainService.svc")]
+        public string APIUrl {
+            get {
+                return ((string)(this["APIUrl"]));
+            }
+            set {
+                this["APIUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000")]
+        public int TimeOut {
+            get {
+                return ((int)(this["TimeOut"]));
+            }
+            set {
+                this["TimeOut"] = value;
+            }
+        }
     }
 }

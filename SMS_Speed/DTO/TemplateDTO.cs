@@ -8,11 +8,14 @@ namespace SMS_Speed.DTO
 {
     internal class TemplateDTO
     {
-        public List<Template> BrandnameTemplates;
-    }
-    public class Template{
         public string NetworkID;
         public string TempContent;
         public string TempId;
+        
+    }
+    internal class TemplateResponseDTO{
+        public List<TemplateDTO> BrandnameTemplates { get; set; } = new List<TemplateDTO>();
+        public int CodeResult { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

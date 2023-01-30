@@ -26,5 +26,11 @@
     <Setting Name="TemplateMonth" Type="System.String" Scope="User">
       <Value Profile="(Default)">[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban</Value>
     </Setting>
+    <Setting Name="APIUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://rest.esms.vn/MainService.svc</Value>
+    </Setting>
+    <Setting Name="TimeOut" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">300000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

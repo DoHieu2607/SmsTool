@@ -14,19 +14,11 @@ namespace SMS_Speed.eSMS
 {
     internal class SMSFunction
     {
-        public static ResponseDTO SendSMSXml(List<MemberDTO> customer)
+    
+        public static SMSResponseDTO SendSMS(List<MemberDTO> customer, string BrandName, int SmsType, string Content)
         {
-            /*  string APIKey = Config.ReadConfigFile()["ApiKey"];
-              string SecretKey = Config.ReadConfigFile()["SecretKey"];
-              string SmsType = Config.ReadConfigFile()["SmsType"];
-              string BrandName = Config.ReadConfigFile()["BrandName"];
-              string Content = Config.ReadConfigFile()["Content"];*/
-
             string APIKey = Properties.Settings.Default.ApiKey;
             string SecretKey = Properties.Settings.Default.SecretKey;
-            string SmsType = Properties.Settings.Default.SmsType;
-            string BrandName = Properties.Settings.Default.BrandName;
-            string Content = Properties.Settings.Default.TemplateDay;
 
 
             string url = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4/";
@@ -45,13 +37,13 @@ namespace SMS_Speed.eSMS
 
             }
             string SampleXml = @"<RQST>"
-                               + "<APIKEY>" + APIKey + "</APIKEY>"
-                               + "<SECRETKEY>" + SecretKey + "</SECRETKEY>"
-                               + "<ISFLASH>0</ISFLASH>"
-                               + "<BRANDNAME>"+ BrandName + "</BRANDNAME>" 
-                               + "<SMSTYPE>"+ SmsType + "</SMSTYPE>"                             
-                               + "<CONTACTS>" + customers + "</CONTACTS>"
-                               + "<CONTENT>" + Content + "</CONTENT>"
+                               + $"<APIKEY>{APIKey}</APIKEY>"
+                               + $"<SECRETKEY>{SecretKey}</SECRETKEY>"
+                               + $"<ISFLASH>0</ISFLASH>"
+                               + $"<BRANDNAME>{BrandName}</BRANDNAME>"
+                               + $"<SMSTYPE>{SmsType}</SMSTYPE>"
+                               + $"<CONTACTS>{customers}</CONTACTS>"
+                               + $"<CONTENT>{Content}</CONTENT>"
            + "</RQST>";
 
             string postData = SampleXml.Trim().ToString();
@@ -75,9 +67,55 @@ namespace SMS_Speed.eSMS
             loResponseStream.Close();
             webresponse.Close();
 
-            return JsonConvert.DeserializeObject<ResponseDTO>(strResult); ;
+            SMSResponseDTO res = JsonConvert.DeserializeObject<SMSResponseDTO>(strResult);
+            return res;
         }
 
+        //public static 
+        public static List<BrandnameDTO> getBrandNames()
+        {
+            try
+            {
+                string APIKey = Properties.Settings.Default.ApiKey;
+                string SecretKey = Properties.Settings.Default.SecretKey;
+                string SmsType = Properties.Settings.Default.SmsType;
+                string BrandName = Properties.Settings.Default.BrandName;
+                string Content = Properties.Settings.Default.TemplateDay;
+                string APIUrl = Properties.Settings.Default.APIUrl;
+
+                string subUrl = $"/json/GetListBrandname/{APIKey}/{SecretKey}";
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(APIUrl + subUrl);
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "GET";
+                httpWebRequest.Timeout = Properties.Settings.Default.TimeOut;
+
+                var response = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream);
+                    string json = reader.ReadToEnd();
+                    BrandnameResponseDTO res = JsonConvert.DeserializeObject<BrandnameResponseDTO>(json);
+                    if(res.CodeResponse == 100)
+                    {
+                        return res.ListBrandname;
+                    }
+                    else
+                    {
+                        Globals.WriteLog($"API Error Code: {res.CodeResponse}; Failed to get brandnames");
+                        return null;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Globals.WriteLog($"API Get Error: {e.Message}");
+                return null;
+            }
+            
+        }
         public static string CheckBalance()
         {
             object body = new
@@ -89,7 +127,7 @@ namespace SMS_Speed.eSMS
             string jsonBody = JsonConvert.SerializeObject(body);
             string url = "http://rest.esms.vn/MainService.svc/json/GetBalance_json";
             string result;
-            string err = CallAPIController.CallAPI(url, jsonBody, "application/json", "POST", out result);
+            string err = Globals.CallAPI(url, jsonBody, "application/json", "POST", out result);
             if (!err.Equals(""))
             {
                 MessageBox.Show(err, "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -138,25 +176,37 @@ namespace SMS_Speed.eSMS
             }
         }*/
 
-        public static List<string> GetTemplate()
+        public static List<TemplateDTO> GetTemplate(int smsType, string brandName)
         {
             object body = new
             {
                 ApiKey = Properties.Settings.Default.ApiKey,
                 SecretKey = Properties.Settings.Default.SecretKey,
-                SmsType = Properties.Settings.Default.SmsType,
-                Brandname = Properties.Settings.Default.BrandName
+                SmsType = smsType,
+                Brandname = brandName
             };
 
             string jsonBody = JsonConvert.SerializeObject(body);
             string url = "http://rest.esms.vn/MainService.svc/json/GetTemplate/";
             string result;
-            string err = CallAPIController.CallAPI(url, jsonBody, "application/json", "POST", out result);
+            string err = Globals.CallAPI(url, jsonBody, "application/json", "POST", out result);
             if (!err.Equals(""))
             {
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
-            return JsonConvert.DeserializeObject<TemplateDTO>(result).BrandnameTemplates.Select(S=>S.TempContent).ToList();
+
+            TemplateResponseDTO res = JsonConvert.DeserializeObject<TemplateResponseDTO>(result);
+            if(res.CodeResult == 100)
+            {
+                return JsonConvert.DeserializeObject<TemplateResponseDTO>(result).BrandnameTemplates;
+            }
+            else
+            {
+                MessageBox.Show(res.ErrorMessage, res.CodeResult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Globals.WriteLog($"API GET TEMPLATE ERROR CODE: {res.CodeResult}, ERROR MESSAGE: {res.ErrorMessage}");
+                return null;
+            }
         }
 }
 }

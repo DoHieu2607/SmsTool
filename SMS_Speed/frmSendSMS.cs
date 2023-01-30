@@ -23,6 +23,8 @@ namespace SMS_Speed
         private MemberServices MemberService = new MemberServices();
         private bool isFirstStartMonth = true;
         private bool isFirstStartDate = true;
+        private List<BrandnameDTO> brandnameDTOs;
+        private Dictionary<string, List<TemplateDTO>> templates = new Dictionary<string, List<TemplateDTO>>();
         public frmSendSMS()
         {
             InitializeComponent();
@@ -31,15 +33,14 @@ namespace SMS_Speed
 
             
         }
+        
+        
         private void InitConfig()
         {
 
             foreach (SettingsProperty currentProperty in Properties.Settings.Default.Properties)
             {
                 configs.Add(currentProperty.Name, currentProperty.DefaultValue.ToString());
-
-
-
             }
 
             int x = 150;
@@ -67,7 +68,6 @@ namespace SMS_Speed
                 flpConfig.Controls.Add(panel);
             }
      
-         
         }
 
         private void WriteLog(string LogText)
@@ -204,7 +204,6 @@ namespace SMS_Speed
             int arg = 11;
             if (!bgwMonth.IsBusy)
             {
-                Console.WriteLine(arg.ToString());
                 bgwMonth.RunWorkerAsync(argument: arg);
             }
             DateTime nextMonthFirst = GetNextMonthFirstDate(DateTime.Now);
@@ -226,15 +225,44 @@ namespace SMS_Speed
             {
                 string month = Convert.ToString(e.Argument);
                 List<MemberDTO> customers = MemberService.GetMemberByBirthday(month);
-                foreach (MemberDTO cust in customers)
+                if(customers.Count > 0)
                 {
-                    WriteLog("Phone: " + cust.HomeTele);
+
+                }
+                else
+                {
+                    WriteLog("No Customers found!");
+                }
+                //foreach (MemberDTO cust in customers)
+                //{
+                //    WriteLog("Phone: " + cust.HomeTele);
+                //}
+                
+                //WriteLog(SMSFunction.getBrandNames());
+            }
+            catch(Exception ex) { }
+            
+            
+        }
+
+        private void frmSendSMS_Load(object sender, EventArgs e)
+        {
+            brandnameDTOs = SMSFunction.getBrandNames();
+            
+            foreach (BrandnameDTO b in brandnameDTOs)
+            {
+                WriteLog($"Brandname: {b.BrandName}; type: {b.Type}");
+                List<TemplateDTO> tempChilds = SMSFunction.GetTemplate(b.Type,b.BrandName);
+                if (!templates.ContainsKey($"{b.BrandName}-{b.Type}"))
+                {
+                    templates.Add($"{b.BrandName}-{b.Type}", tempChilds);
+                }
+                foreach(TemplateDTO t in tempChilds)
+                {
+                    WriteLog($"{b.BrandName}-{b.Type}: Networ {t.NetworkID}, Content {t.TempContent}, ID {t.TempId}");
                 }
             }
-            catch
-            {
 
-            }
             
         }
     }
