@@ -12,5 +12,10 @@ namespace SMS_Speed.DTO
         public string LastName;
         public string BirthDate;
         public string HomeTele;
+        public DateTime Anniver;
+        public int CurPoints;
+        public int LastTrans;
+        public int LastTrans2;
+        public int LastTrans3;
     }
 }

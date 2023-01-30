@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\Member.cs" />
+    <Compile Include="Services\MemberServices.cs" />
     <Compile Include="DTO\BalanceDTO.cs" />
     <Compile Include="DTO\MemberDTO.cs" />
     <Compile Include="DTO\ResponseDTO.cs" />

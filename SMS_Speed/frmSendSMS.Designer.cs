@@ -36,17 +36,17 @@
             this.btnClearLog = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnPause = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flpConfig = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnExitApp = new System.Windows.Forms.Button();
             this.tmrDate = new System.Windows.Forms.Timer(this.components);
             this.tmrMonth = new System.Windows.Forms.Timer(this.components);
             this.bgwDate = new System.ComponentModel.BackgroundWorker();
             this.bgwMonth = new System.ComponentModel.BackgroundWorker();
-            this.btnPause = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -129,6 +129,20 @@
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
+            // btnPause
+            // 
+            this.btnPause.BackColor = System.Drawing.Color.Tomato;
+            this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPause.ForeColor = System.Drawing.Color.Snow;
+            this.btnPause.Location = new System.Drawing.Point(452, 360);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(116, 30);
+            this.btnPause.TabIndex = 16;
+            this.btnPause.Text = "Tạm Dừng";
+            this.btnPause.UseVisualStyleBackColor = false;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.YellowGreen;
@@ -185,42 +199,36 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Cấu hình";
             // 
-            // btnCancel
+            // btnExitApp
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.Red;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.ForeColor = System.Drawing.Color.Snow;
-            this.btnCancel.Location = new System.Drawing.Point(658, 0);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(41, 36);
-            this.btnCancel.TabIndex = 14;
-            this.btnCancel.Text = "x";
-            this.btnCancel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnExitApp.BackColor = System.Drawing.Color.Red;
+            this.btnExitApp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExitApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExitApp.ForeColor = System.Drawing.Color.Snow;
+            this.btnExitApp.Location = new System.Drawing.Point(658, 0);
+            this.btnExitApp.Name = "btnExitApp";
+            this.btnExitApp.Size = new System.Drawing.Size(41, 36);
+            this.btnExitApp.TabIndex = 14;
+            this.btnExitApp.Text = "x";
+            this.btnExitApp.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnExitApp.UseVisualStyleBackColor = false;
+            this.btnExitApp.Click += new System.EventHandler(this.btnExitApp_Click);
             // 
             // tmrDate
             // 
             this.tmrDate.Tick += new System.EventHandler(this.tmrDate_Tick);
             // 
+            // tmrMonth
+            // 
+            this.tmrMonth.Tick += new System.EventHandler(this.tmrMonth_Tick);
+            // 
             // bgwDate
             // 
             this.bgwDate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker1_DoWork);
             // 
-            // btnPause
+            // bgwMonth
             // 
-            this.btnPause.BackColor = System.Drawing.Color.Tomato;
-            this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPause.ForeColor = System.Drawing.Color.Snow;
-            this.btnPause.Location = new System.Drawing.Point(452, 360);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(116, 30);
-            this.btnPause.TabIndex = 16;
-            this.btnPause.Text = "Tạm Dừng";
-            this.btnPause.UseVisualStyleBackColor = false;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            this.bgwMonth.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwMonth_DoWork);
             // 
             // frmSendSMS
             // 
@@ -228,7 +236,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(698, 544);
-            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnExitApp);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel3);
@@ -262,7 +270,7 @@
         private System.Windows.Forms.Timer tmrMonth;
         private System.ComponentModel.BackgroundWorker bgwDate;
         private System.ComponentModel.BackgroundWorker bgwMonth;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnExitApp;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.Button btnPause;

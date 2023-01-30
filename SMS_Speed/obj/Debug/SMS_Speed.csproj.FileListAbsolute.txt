@@ -39,3 +39,17 @@ D:\projects\SpeedJSC\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.CoreCompileInp
 D:\projects\SpeedJSC\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.CopyComplete
 D:\projects\SpeedJSC\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.exe
 D:\projects\SpeedJSC\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.pdb
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.AssemblyReference.cache
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.SuggestedBindingRedirects.cache
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.frmSendSMS.resources
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.Properties.Resources.resources
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.GenerateResource.cache
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.CoreCompileInputs.cache
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.exe
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.pdb
+D:\Speed_POS\SmsTool\SMS_Speed\bin\Debug\SMS_Speed.exe.config
+D:\Speed_POS\SmsTool\SMS_Speed\bin\Debug\SMS_Speed.exe
+D:\Speed_POS\SmsTool\SMS_Speed\bin\Debug\SMS_Speed.pdb
+D:\Speed_POS\SmsTool\SMS_Speed\bin\Debug\Newtonsoft.Json.dll
+D:\Speed_POS\SmsTool\SMS_Speed\bin\Debug\Newtonsoft.Json.xml
+D:\Speed_POS\SmsTool\SMS_Speed\obj\Debug\SMS_Speed.csproj.CopyComplete

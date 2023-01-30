@@ -20,7 +20,9 @@ namespace SMS_Speed
     public partial class frmSendSMS : Form
     {
         Dictionary<string, string> configs = new Dictionary<string, string>();
-        private Member MemberService;
+        private MemberServices MemberService = new MemberServices();
+        private bool isFirstStartMonth = true;
+        private bool isFirstStartDate = true;
         public frmSendSMS()
         {
             InitializeComponent();
@@ -89,6 +91,11 @@ namespace SMS_Speed
             return start.AddDays(daysToAdd);
         }
 
+        public static DateTime GetNextMonthFirstDate(DateTime start)
+        {
+            // Get the next month
+            return new DateTime(start.AddMonths(1).Year, start.AddMonths(1).Month, 1);
+        }
         //EventUI
 
 
@@ -136,8 +143,15 @@ namespace SMS_Speed
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            DateTime test = GetNextWeekday(DateTime.Now.AddDays(1), DayOfWeek.Monday);
-            WriteLog(test.ToString());
+            //DateTime test = GetNextWeekday(DateTime.Now.AddDays(1), DayOfWeek.Monday);
+            //WriteLog(test.ToString());
+            //tmrDate.Enabled = true;
+            //tmrDate.Interval = 1000;
+            //tmrDate.Start();
+            tmrMonth.Enabled= true;
+            tmrMonth.Interval = 1000;
+            tmrMonth.Start();
+
         }
 
         private void BtnStop_Click(object sender, EventArgs e)
@@ -154,11 +168,12 @@ namespace SMS_Speed
 
         private void tmrDate_Tick(object sender, EventArgs e)
         {
+            // calculate the miliseconds of next Monday
             DateTime now = DateTime.Now;
-            DateTime nextDay = now.AddDays(0);
-            string strNextDay = nextDay.ToString("MM/dd/yyyy");
+            DateTime nextMonday = GetNextWeekday(now, DayOfWeek.Monday);
+            string strNextDay = nextMonday.ToString("MM/dd/yyyy");
             /*   01 / 14 / 20231 / 13 / 2023 11:24:59 AM*/
-            strNextDay += " 01:32:00 PM";
+            strNextDay += " 11:00:00 AM";
             double timeInterval = (DateTime.Parse(strNextDay) - now).TotalMilliseconds;
             if (timeInterval == 0)
             {
@@ -167,17 +182,60 @@ namespace SMS_Speed
             }
             /*      tmrDate.Interval = Convert.ToInt32(timeInterval);*/
             tmrDate.Interval = 1000;
-            WriteLog("Hello");
+            WriteLog(timeInterval.ToString());
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnExitApp_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
         private void btnPause_Click(object sender, EventArgs e)
         {
+            tmrDate.Stop();
+            tmrDate.Enabled=false;
+            tmrMonth.Enabled=false;
+            tmrMonth.Stop();
+        }
 
+        private void tmrMonth_Tick(object sender, EventArgs e)
+        {
+            //int arg = DateTime.Now.Month;
+            int arg = 11;
+            if (!bgwMonth.IsBusy)
+            {
+                Console.WriteLine(arg.ToString());
+                bgwMonth.RunWorkerAsync(argument: arg);
+            }
+            DateTime nextMonthFirst = GetNextMonthFirstDate(DateTime.Now);
+            string strNextMonthFirst = nextMonthFirst.ToString("MM/dd/yyyy");
+            strNextMonthFirst += " 11:00:00 AM";
+            double timeInterval = (DateTime.Parse(strNextMonthFirst) - DateTime.Now).TotalMilliseconds; 
+            if (timeInterval == 0)
+            {
+                Console.WriteLine(timeInterval);
+            }
+            tmrMonth.Interval= Convert.ToInt32(timeInterval);
+            WriteLog(strNextMonthFirst);
+            
+        }
+
+        private void bgwMonth_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                string month = Convert.ToString(e.Argument);
+                List<MemberDTO> customers = MemberService.GetMemberByBirthday(month);
+                foreach (MemberDTO cust in customers)
+                {
+                    WriteLog("Phone: " + cust.HomeTele);
+                }
+            }
+            catch
+            {
+
+            }
+            
         }
     }
 }
