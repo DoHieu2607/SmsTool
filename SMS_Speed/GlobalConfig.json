@@ -1,0 +1,22 @@
+{
+  "voucher": {
+
+    "1": {
+      "description": "Khoai tay",
+      "points": 70
+    },
+    "2": {
+      "description": "Salad",
+      "points": 120
+    },
+    "3": {
+      "description": "Phan nua con ga tu chon",
+      "points": 160
+    },
+    "4": {
+      "description": "Phan ga khong xuong pho mai",
+      "points": 300
+    }
+  },
+  "birthdayVoucher": "GIAM50% ga pho mai cay"
+}

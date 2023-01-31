@@ -23,8 +23,7 @@ namespace SMS_Speed
         private MemberServices MemberService = new MemberServices();
         private bool isFirstStartMonth = true;
         private bool isFirstStartDate = true;
-        private List<BrandnameDTO> brandnameDTOs;
-        private Dictionary<string, List<TemplateDTO>> templates = new Dictionary<string, List<TemplateDTO>>();
+       
         public frmSendSMS()
         {
             InitializeComponent();
@@ -233,6 +232,10 @@ namespace SMS_Speed
                 {
                     WriteLog("No Customers found!");
                 }
+                SMSResponseDTO res = SMSFunction.TestSendSMS();
+                WriteLog(res.CodeResult.ToString());
+                WriteLog(res.ErrorMessage);
+                WriteLog(res.SMSID);
                 //foreach (MemberDTO cust in customers)
                 //{
                 //    WriteLog("Phone: " + cust.HomeTele);
@@ -247,23 +250,11 @@ namespace SMS_Speed
 
         private void frmSendSMS_Load(object sender, EventArgs e)
         {
-            brandnameDTOs = SMSFunction.getBrandNames();
+            WriteLog($"SMS TOOL FOR DON CHICKEN WITH BRANDNAME: {Properties.Settings.Default.Brandname}");
+            WriteLog($"Template send sms for customer birthday: {Properties.Settings.Default.TemplateBirthday}");
+            WriteLog($"Template send sms for customer voucher: {Properties.Settings.Default.TemplatePoint}");
             
-            foreach (BrandnameDTO b in brandnameDTOs)
-            {
-                WriteLog($"Brandname: {b.BrandName}; type: {b.Type}");
-                List<TemplateDTO> tempChilds = SMSFunction.GetTemplate(b.Type,b.BrandName);
-                if (!templates.ContainsKey($"{b.BrandName}-{b.Type}"))
-                {
-                    templates.Add($"{b.BrandName}-{b.Type}", tempChilds);
-                }
-                foreach(TemplateDTO t in tempChilds)
-                {
-                    WriteLog($"{b.BrandName}-{b.Type}: Networ {t.NetworkID}, Content {t.TempContent}, ID {t.TempId}");
-                }
-            }
 
-            
         }
     }
 }

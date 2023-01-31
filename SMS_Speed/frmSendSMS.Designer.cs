@@ -132,7 +132,6 @@
             // btnPause
             // 
             this.btnPause.BackColor = System.Drawing.Color.Tomato;
-            this.btnPause.Enabled = false;
             this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPause.ForeColor = System.Drawing.Color.Snow;
@@ -147,7 +146,6 @@
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.YellowGreen;
-            this.btnStart.Enabled = false;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.ForeColor = System.Drawing.Color.Snow;

@@ -3,9 +3,11 @@ using SMS_Speed.DTO;
 using SMS_Speed.Utility;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,39 +17,24 @@ namespace SMS_Speed.eSMS
     internal class SMSFunction
     {
     
-        public static SMSResponseDTO SendSMS(List<MemberDTO> customer, string BrandName, int SmsType, string Content)
+        public static SMSResponseDTO SendSMS(MemberDTO customer, string BrandName, int SmsType, string Content)
         {
             string APIKey = Properties.Settings.Default.ApiKey;
             string SecretKey = Properties.Settings.Default.SecretKey;
+            string APIUrl = Properties.Settings.Default.APIUrl;
 
-
-            string url = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4/";
-            UTF8Encoding encoding = new UTF8Encoding();
-
+            string subUrl = "/json/SendMultipleMessage_V4_post/";
+            string url = APIUrl + subUrl;
             string strResult = string.Empty;
 
-            string customers = "";
+            string postData = $"Phone={customer.HomeTele}"
+                               + $"&ApiKey={APIKey}"
+            + $"&SecretKey={SecretKey}"
+            + $"&Content={Content}"
+            + $"&Brandname={BrandName}"
+            + $"&SmsType={SmsType}";
 
-
-            for (int i = 0; i < customer.Count(); i++)
-            {
-                customers = customers + @"<CUSTOMER>"
-                                + "<PHONE>" + customer[i].HomeTele + "</PHONE>"
-                                + "</CUSTOMER>";
-
-            }
-            string SampleXml = @"<RQST>"
-                               + $"<APIKEY>{APIKey}</APIKEY>"
-                               + $"<SECRETKEY>{SecretKey}</SECRETKEY>"
-                               + $"<ISFLASH>0</ISFLASH>"
-                               + $"<BRANDNAME>{BrandName}</BRANDNAME>"
-                               + $"<SMSTYPE>{SmsType}</SMSTYPE>"
-                               + $"<CONTACTS>{customers}</CONTACTS>"
-                               + $"<CONTENT>{Content}</CONTENT>"
-           + "</RQST>";
-
-            string postData = SampleXml.Trim().ToString();
-            byte[] data = encoding.GetBytes(postData);
+            byte[] data = Encoding.ASCII.GetBytes(postData);
 
             HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(url);
             webrequest.Method = "POST";
@@ -71,16 +58,86 @@ namespace SMS_Speed.eSMS
             return res;
         }
 
-        //public static 
+        public static SMSResponseDTO TestSendSMS()
+        {
+            string APIKey = "E0BF300460D2DE65489DB31934A7B4";
+            string SecretKey = "3219839723390BC6133415A002FA2D";
+            string APIUrl = Properties.Settings.Default.APIUrl;
+
+            string testPhone = "0901312607";
+            string BrandName = "Baotrixemay";
+            string SmsType = "2";
+            string Content = "Cam on quy khach da su dung dich vu cua chung toi. Chuc quy khach mot ngay tot lanh!";
+            string subUrl = "/json/SendMultipleMessage_V4_post/";
+            string url = APIUrl + subUrl;
+            UTF8Encoding encoding = new UTF8Encoding();
+
+            string strResult = string.Empty;
+
+
+            string postData = $"Phone={testPhone}"
+                               + $"&ApiKey={APIKey}"
+            + $"&SecretKey={SecretKey}"
+            + $"&Content={Content}"
+            + $"&Brandname={BrandName}"
+            + $"&SmsType={SmsType}";
+
+            byte[] data = Encoding.ASCII.GetBytes(postData);
+            
+            HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(url);
+            webrequest.Method = "POST";
+            webrequest.Timeout = 500000;
+            webrequest.ContentType = "application/x-www-form-urlencoded";
+            webrequest.ContentLength = data.Length;
+
+            Stream newStream = webrequest.GetRequestStream();
+            newStream.Write(data, 0, data.Length);
+            newStream.Close();
+
+            HttpWebResponse webresponse = (HttpWebResponse)webrequest.GetResponse();
+
+            Encoding enc = System.Text.Encoding.GetEncoding("utf-8");
+            StreamReader loResponseStream = new StreamReader(webresponse.GetResponseStream(), enc);
+            strResult = loResponseStream.ReadToEnd();
+            loResponseStream.Close();
+            webresponse.Close();
+
+            SMSResponseDTO res = JsonConvert.DeserializeObject<SMSResponseDTO>(strResult);
+            return res;
+        }
+
+        public static CheckSMSDTO checkSMS(string SMSID)
+        {
+            try
+            {
+                string APIKey = Properties.Settings.Default.ApiKey;
+                string SecretKey = Properties.Settings.Default.SecretKey;
+                string APIUrl = Properties.Settings.Default.APIUrl;
+
+                string subUrl = $"/json/GetSendStatus?RefId={SMSID}&ApiKey={APIKey}&SecretKey={SecretKey}";
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(APIUrl + subUrl);
+                httpWebRequest.Method = "GET";
+                httpWebRequest.Timeout = 300000;
+
+                var httpWebResponse = (WebResponse)httpWebRequest.GetResponse();
+                using(var srCheck = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8)) { 
+                    return JsonConvert.DeserializeObject<CheckSMSDTO>(srCheck.ReadToEnd());
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                Globals.WriteLog($"CHECK SMS ERROR: {ex.Message}");
+                return null;
+            }
+        }
         public static List<BrandnameDTO> getBrandNames()
         {
             try
             {
                 string APIKey = Properties.Settings.Default.ApiKey;
                 string SecretKey = Properties.Settings.Default.SecretKey;
-                string SmsType = Properties.Settings.Default.SmsType;
-                string BrandName = Properties.Settings.Default.BrandName;
-                string Content = Properties.Settings.Default.TemplateDay;
                 string APIUrl = Properties.Settings.Default.APIUrl;
 
                 string subUrl = $"/json/GetListBrandname/{APIKey}/{SecretKey}";
@@ -141,40 +198,7 @@ namespace SMS_Speed.eSMS
         }
 
 
-      /*  public static ResponseDTO SendSMSJson(List<MemberDTO> customers)
-        {
-            string apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_post_json/";
-            try
-            {
-                for (int i = 0; i < customers.Count; i++)
-                {
-                    object body = new
-                    {
-                        ApiKey = Config.ReadConfigFile()["ApiKey"],
-                        SecretKey = Config.ReadConfigFile()["SecretKey"],
-                        SmsType = Config.ReadConfigFile()["SmsType"],
-                        Brandname = Config.ReadConfigFile()["BrandName"],
-                        IsUnicode = Config.ReadConfigFile()["IsUnicode"],
-                        SandBox = Config.ReadConfigFile()["SandBox"],
-                        RequestId = Guid.NewGuid().ToString(),
-                        Phone = customers[i].HomeTele,
-                        Content = Config.ReadConfigFile()["Content"],
-                    };
-                    string jsonBody = JsonConvert.SerializeObject(body);
-                    string result;
-                    string err = CallAPIController.CallAPI(apiUrl, jsonBody, "application/json", "POST", out result);
-                    if (!err.Equals(""))
-                    {
-                        return JsonConvert.DeserializeObject<ResponseDTO>(result);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); null;
-                return null;
-            }
-        }*/
+      
 
         public static List<TemplateDTO> GetTemplate(int smsType, string brandName)
         {
@@ -203,9 +227,9 @@ namespace SMS_Speed.eSMS
             }
             else
             {
-                MessageBox.Show(res.ErrorMessage, res.CodeResult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(res.ErrorMessage, res.CodeResult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Globals.WriteLog($"API GET TEMPLATE ERROR CODE: {res.CodeResult}, ERROR MESSAGE: {res.ErrorMessage}");
-                return null;
+                return res.BrandnameTemplates;
             }
         }
 }

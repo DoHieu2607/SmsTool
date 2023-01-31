@@ -25,7 +25,7 @@ namespace SMS_Speed.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E0BF300460D2DE65489DB31934A7B4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("B733F58E1F09C62229C2B6F7624B3A")]
         public string ApiKey {
             get {
                 return ((string)(this["ApiKey"]));
@@ -37,37 +37,13 @@ namespace SMS_Speed.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3219839723390BC6133415A002FA2D")]
+        [global::System.Configuration.DefaultSettingValueAttribute("CFAB335FF51D9F664229EEC55DA149")]
         public string SecretKey {
             get {
                 return ((string)(this["SecretKey"]));
             }
             set {
                 this["SecretKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Baotrixemay")]
-        public string BrandName {
-            get {
-                return ((string)(this["BrandName"]));
-            }
-            set {
-                this["BrandName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public string SmsType {
-            get {
-                return ((string)(this["SmsType"]));
-            }
-            set {
-                this["SmsType"] = value;
             }
         }
         
@@ -97,30 +73,6 @@ namespace SMS_Speed.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban")]
-        public string TemplateDay {
-            get {
-                return ((string)(this["TemplateDay"]));
-            }
-            set {
-                this["TemplateDay"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban")]
-        public string TemplateMonth {
-            get {
-                return ((string)(this["TemplateMonth"]));
-            }
-            set {
-                this["TemplateMonth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://rest.esms.vn/MainService.svc")]
         public string APIUrl {
             get {
@@ -140,6 +92,57 @@ namespace SMS_Speed.Properties {
             }
             set {
                 this["TimeOut"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DON CHICKEN")]
+        public string Brandname {
+            get {
+                return ((string)(this["Brandname"]));
+            }
+            set {
+                this["Brandname"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public string SMSType {
+            get {
+                return ((string)(this["SMSType"]));
+            }
+            set {
+                this["SMSType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Chuc mung sinh nhat Quy khach {name}, DON CHICKEN chuc ban co mot thang sinh nhat" +
+            " y nghia. DON CHICKEN tang ban {product}. Luu y khi den an tai cac chi nhanh vui" +
+            " long xuat trinh the member va CMND/CCCD de nhan voucher.")]
+        public string TemplateBirthday {
+            get {
+                return ((string)(this["TemplateBirthday"]));
+            }
+            set {
+                this["TemplateBirthday"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{name} dang co {point} diem, ban da nhan duoc 1 phan {product}. Vui long {name} k" +
+            "hi den nha hang de doi thuong nhe.")]
+        public string TemplatePoint {
+            get {
+                return ((string)(this["TemplatePoint"]));
+            }
+            set {
+                this["TemplatePoint"] = value;
             }
         }
     }

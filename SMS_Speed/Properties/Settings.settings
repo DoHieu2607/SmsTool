@@ -3,16 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ApiKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">E0BF300460D2DE65489DB31934A7B4</Value>
+      <Value Profile="(Default)">B733F58E1F09C62229C2B6F7624B3A</Value>
     </Setting>
     <Setting Name="SecretKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3219839723390BC6133415A002FA2D</Value>
-    </Setting>
-    <Setting Name="BrandName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Baotrixemay</Value>
-    </Setting>
-    <Setting Name="SmsType" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">CFAB335FF51D9F664229EEC55DA149</Value>
     </Setting>
     <Setting Name="IsUnicode" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -20,17 +14,23 @@
     <Setting Name="SandBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="TemplateDay" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban</Value>
-    </Setting>
-    <Setting Name="TemplateMonth" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[^.]{0,20} la ma xac minh dang ky Baotrixemay cua ban</Value>
-    </Setting>
     <Setting Name="APIUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://rest.esms.vn/MainService.svc</Value>
     </Setting>
     <Setting Name="TimeOut" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">300000</Value>
+    </Setting>
+    <Setting Name="Brandname" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DON CHICKEN</Value>
+    </Setting>
+    <Setting Name="SMSType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="TemplateBirthday" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Chuc mung sinh nhat Quy khach {name}, DON CHICKEN chuc ban co mot thang sinh nhat y nghia. DON CHICKEN tang ban {product}. Luu y khi den an tai cac chi nhanh vui long xuat trinh the member va CMND/CCCD de nhan voucher.</Value>
+    </Setting>
+    <Setting Name="TemplatePoint" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{name} dang co {point} diem, ban da nhan duoc 1 phan {product}. Vui long {name} khi den nha hang de doi thuong nhe.</Value>
     </Setting>
   </Settings>
 </SettingsFile>
